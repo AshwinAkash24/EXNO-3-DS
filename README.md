@@ -1,5 +1,7 @@
-## EXNO-3-DS
-
+## EXNO-3:To read the given data and perform Feature Encoding and Transformation process and save the data to a file.
+## Name: Ashwin Akash M
+## Register Number: 212223230024
+## Department: Artificial Intelligence And Data Science.
 # AIM:
 To read the given data and perform Feature Encoding and Transformation process and save the data to a file.
 
@@ -21,18 +23,174 @@ Binary encoding converts a category into binary digits. Each binary digit create
 We use this categorical data encoding technique when the features are nominal(do not have any order). In one hot encoding, for each level of a categorical feature, we create a new variable. Each category is mapped with a binary variable containing either 0 or 1. Here, 0 represents the absence, and 1 represents the presence of that category.
 
 # Methods Used for Data Transformation:
-  # 1. FUNCTION TRANSFORMATION
-• Log Transformation
-• Reciprocal Transformation
-• Square Root Transformation
-• Square Transformation
-  # 2. POWER TRANSFORMATION
-• Boxcox method
-• Yeojohnson method
-
-# CODING AND OUTPUT:
-       # INCLUDE YOUR CODING AND OUTPUT SCREENSHOTS HERE
+# 1.Feature Encoding
+## Ordinal Encoder:
+```
+import pandas as pd
+df=pd.read_csv('Encoding Data.csv')
+df
+```
+![alt text](image-1.png)
+```
+from sklearn.preprocessing import LabelEncoder,OrdinalEncoder
+#ordinal encoder
+pm=['Hot','Warm','Cold']
+e1=OrdinalEncoder(categories=[pm])
+e1.fit_transform(df[['ord_2']])
+```
+![alt text](image-2.png)
+```
+df['bo2']=e1.fit_transform(df[["ord_2"]])
+df
+```
+![alt text](image-3.png)
+## Label Encoder:
+```
+le=LabelEncoder()
+dfc=df.copy()
+dfc['ord_2']=le.fit_transform(dfc['ord_2'])
+dfc
+```
+![alt text](image-4.png)
+## One Hot Encoder:
+```
+from sklearn.preprocessing import OneHotEncoder
+ohe=OneHotEncoder()
+df2=df.copy()
+enc=pd.DataFrame(ohe.fit_transform(df2[['nom_0']]))
+df2=pd.concat([df2,enc],axis=1)
+df2
+```
+![alt text](image-5.png)
+## Category Encoder:
+```
+pip install --upgrade category_encoders
+```
+![alt text](image-6.png)
+## Binary Encoder:
+```
+from category_encoders import BinaryEncoder
+df=pd.read_csv('data.csv')
+df
+```
+![alt text](image-7.png)
+```
+be=BinaryEncoder()
+nd=be.fit_transform(df['Ord_2'])
+dfb=pd.concat([df,nd],axis=1)
+dfb1=df.copy()
+dfb
+```
+![alt text](image-8.png)
+## Target Encoder:
+```
+from category_encoders import TargetEncoder
+te=TargetEncoder()
+cc=df.copy()
+new=te.fit_transform(X=cc["City"],y=cc["Target"])
+cc=pd.concat([cc,new],axis=1)
+cc
+```
+![alt text](image-9.png)
+# 2.0 FUNCTION TRANSFORMATION
+## Log Transformation
+```
+from scipy import stats
+import numpy as np
+df=pd.read_csv('Data_to_Transform.csv')
+df
+```
+![alt text](image-10.png)
+```
+df.skew()
+```
+![alt text](image-11.png)
+```
+np.log(df["Highly Positive Skew"])
+```
+![alt text](image-12.png)
+## Reciprocal Transformation
+```
+np.reciprocal(df["Moderate Positive Skew"])
+```
+![alt text](image-13.png)
+## Square Root Transformation
+```
+np.sqrt(df["Highly Positive Skew"])
+```
+![alt text](image-14.png)
+## Square Transformation
+```
+np.square(df["Highly Positive Skew"])
+```
+![alt text](image-15.png)
+# 2.1 POWER TRANSFORMATION
+## Boxcox method
+```
+df["Highly Positive Skew_boxcox"],parameters=stats.boxcox(df["Highly Positive Skew"])
+df
+```
+![alt text](image-16.png)
+## Yeojohnson method
+```
+df["Moderate Negative Skew_yeojohnson"],parameters=stats.yeojohnson(df["Moderate Negative Skew"])
+df
+```
+![alt text](image-17.png)
+```
+df.skew()
+```
+![alt text](image-18.png)
+```
+df["Highly Negative Skew_yeojohnson"],parameters=stats.yeojohnson(df["Highly Negative Skew"])
+df
+```
+![alt text](image-19.png)
+```
+df.skew()
+```
+![alt text](image-20.png)
+# 2.2 Quantile Transformer:
+```
+from sklearn.preprocessing import QuantileTransformer
+qt=QuantileTransformer(output_distribution='normal')
+df["Moderate Negative Skew_1"]=qt.fit_transform(df[["Moderate Negative Skew"]])
+df
+```
+![alt text](image-21.png)
+```
+import seaborn as sns
+import statsmodels.api as sm
+import matplotlib.pyplot as plt
+sm.qqplot(df["Moderate Negative Skew"],line='45')
+plt.show()
+```
+![alt text](image-22.png)
+```
+sm.qqplot(np.reciprocal(df["Moderate Negative Skew"]),line='45')
+plt.show()
+```
+![alt text](image-24.png)
+```
+from sklearn.preprocessing import QuantileTransformer
+qt=QuantileTransformer(output_distribution='normal',n_quantiles=891)
+df["Moderate Negative Skew"]=qt.fit_transform(df[["Moderate Negative Skew"]])
+sm.qqplot(df["Moderate Negative Skew"],line='45')
+plt.show()
+```
+![alt text](image-25.png)
+```
+df["Highly Negative Skew_1"]=qt.fit_transform(df[["Highly Negative Skew"]])
+sm.qqplot(df['Highly Negative Skew'],line='45')
+plt.show()
+```
+![alt text](image-26.png)
+```
+sm.qqplot(df["Highly Negative Skew_1"],line='45')
+plt.show()
+```
+![alt text](image-27.png)
 # RESULT:
-       # INCLUDE YOUR RESULT HERE
+To read the given data and perform Feature Encoding and Transformation process and save the data to a file is executed successfully.
 
        
